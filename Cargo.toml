@@ -1,0 +1,33 @@
+[package]
+name = "wasm-signal-handler"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "A signal handler library for WebAssembly applications using wasm-bindgen"
+repository = "https://github.com/guybedford/wasm-signal-handler"
+keywords = ["wasm", "wasm-bindgen", "signal", "cloudflare", "workers"]
+categories = ["wasm", "no-std", "asynchronous"]
+
+[lib]
+crate-type = ["rlib"]
+
+[features]
+default = []
+std = []
+
+[dependencies]
+wasm-bindgen = "0.2"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+# Profile for testing with panic=unwind (default for wasm-bindgen)
+[profile.dev]
+panic = "unwind"
+
+[profile.test]
+panic = "unwind"
+
+# For testing panic=abort behavior
+[profile.release]
+panic = "abort"
