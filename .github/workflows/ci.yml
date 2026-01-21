@@ -16,8 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Rust (stable)
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust (nightly)
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rust-src
 
       - name: Cache cargo
         uses: actions/cache@v4
@@ -28,7 +30,7 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-stable-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-nightly-native-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run tests
         run: cargo test
@@ -100,7 +102,7 @@ jobs:
       - name: Install Rust (nightly)
         uses: dtolnay/rust-toolchain@nightly
         with:
-          components: clippy
+          components: clippy, rust-src
 
       - name: Run clippy
         run: cargo clippy --all-targets -- -D warnings
