@@ -77,16 +77,8 @@ impl fmt::Display for Signal {
 ///
 /// This is an `AtomicU32` to ensure proper memory semantics and prevent
 /// compiler optimizations from eliding reads.
-static SIGNAL: AtomicU32 = AtomicU32::new(0);
-
-/// The exported address of the signal variable.
-///
-/// This is exported as a WebAssembly global named `WASM_SIGNAL_ADDR`.
-/// External tools can read this global to obtain the memory address
-/// of the signal variable, then write to that address to set a signal.
-#[no_mangle]
-#[used]
-pub static WASM_SIGNAL_ADDR: &AtomicU32 = &SIGNAL;
+#[export_name = "WASM_SIGNAL_ADDR"]
+pub static SIGNAL: AtomicU32 = AtomicU32::new(0);
 
 // ============================================================================
 // Signal Handler
@@ -393,12 +385,5 @@ mod tests {
         assert_eq!(peek_signal(), Some(Signal(123)));
 
         clear_signal();
-    }
-
-    #[test]
-    fn test_signal_addr_export() {
-        // Verify the exported address points to our signal
-        let addr: *const AtomicU32 = WASM_SIGNAL_ADDR;
-        assert_eq!(addr, &SIGNAL as *const AtomicU32);
     }
 }

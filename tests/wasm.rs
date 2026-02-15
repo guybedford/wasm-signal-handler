@@ -10,7 +10,7 @@ use wasm_bindgen_test::*;
 
 use wasm_signal_handler::{
     check_signal, clear_signal, clear_signal_handler, peek_signal, set_signal, set_signal_handler,
-    try_check_signal, Signal, WASM_SIGNAL_ADDR,
+    try_check_signal, Signal, SIGNAL,
 };
 
 wasm_bindgen_test_configure!(run_in_node_experimental);
@@ -50,8 +50,7 @@ fn get_wasm_memory() -> JsValue {
 
 /// Get the address of SIGNAL by reading through WASM_SIGNAL_ADDR
 fn get_signal_addr() -> u32 {
-    // WASM_SIGNAL_ADDR is a reference to SIGNAL, so its value IS the address
-    WASM_SIGNAL_ADDR as *const _ as u32
+    (&SIGNAL) as *const _ as u32
 }
 
 // ============================================================================
