@@ -15,10 +15,8 @@ crate-type = ["rlib"]
 default = []
 std = []
 
-[dependencies]
-wasm-bindgen = "0.2"
-
 [dev-dependencies]
+wasm-bindgen = "0.2"
 wasm-bindgen-test = "0.3"
 
 # Profile for testing with panic=unwind (default for wasm-bindgen)
